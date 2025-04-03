@@ -1,0 +1,21 @@
+<div *ngIf="nodes.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>IP</th>
+          <th>Hostname</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let machine of nodes">
+          <td>{{ machine.id }}</td>
+          <td>{{ machine.ip }}</td>
+          <td>{{ machine.hostname }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="nodes.length === 0">
+    <p>Aucun nœud trouvé.</p>
+  </div>
