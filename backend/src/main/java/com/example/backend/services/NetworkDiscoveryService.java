@@ -11,36 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-public class NetworkDiscoveryService {
 
-    private final NodeRepository NodeRepository;
-    public List<Node> scanNetwork(String subnet) {
-        List<Node> nodes = new ArrayList<>();
-        try {
-            Process process = Runtime.getRuntime().exec("nmap -sn " + subnet);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            String lastIp = null;
+public interface NetworkDiscoveryService  {
 
-            while ((line = reader.readLine()) != null) {
-                if (line.contains("Nmap scan report for")) {
-                    String[] parts = line.split(" ");
-                    String ip = parts[parts.length - 1];
-                    lastIp = ip;
-                } else if (line.contains("MAC Address")) {
-                    String hostname = line.split(" ")[2]; // Extrait le nom si disponible
-                    if (lastIp != null) {
-                        Node node = new Node(lastIp, hostname);
-                        this.NodeRepository.save(node);
-                        nodes.add(node);
-                        lastIp = null;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return nodes;
-    }
+    public List<Node> scanNetwork(String subnet);
 }
