@@ -3,6 +3,7 @@ package com.example.backend.entities;
 import com.example.backend.Enum.NodeStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 //e
 
 @Entity
@@ -11,6 +12,7 @@ public class Node {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @EqualsAndHashCode.Include
     private String ip;
     private String hostname;
     @Enumerated(EnumType.STRING)

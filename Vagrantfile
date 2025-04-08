@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
     config.vm.synced_folder ".", "/vagrant", disabled: true  
   
     # Créer 3 VMs (node2, node3, node4) pour laisser 192.168.60.1 à l'hôte
-    (2..4).each do |i|
+    (2..5).each do |i|
       config.vm.define "node#{i}" do |node|
         node.vm.hostname = "node#{i}"
         

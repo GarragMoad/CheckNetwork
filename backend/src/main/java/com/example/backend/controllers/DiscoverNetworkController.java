@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/network")
@@ -20,7 +21,7 @@ public class DiscoverNetworkController {
         this.networkDiscoveryService = networkDiscoveryService;
     }
     @GetMapping("/scan")
-    public List<Node> scanNetwork() {
+    public Set<Node> scanNetwork() {
         return this.networkDiscoveryService.scanNetwork(DiscoverNetworkController.subnet);
     }
 
