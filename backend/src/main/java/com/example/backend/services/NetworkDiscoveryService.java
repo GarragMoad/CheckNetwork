@@ -16,4 +16,6 @@ import java.util.Set;
 public interface NetworkDiscoveryService  {
 
     public Set<Node> scanNetwork(String subnet);
+
+    Set<Node> getAllNodes();
 }

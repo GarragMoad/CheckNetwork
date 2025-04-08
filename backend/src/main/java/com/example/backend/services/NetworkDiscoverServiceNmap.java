@@ -4,6 +4,8 @@ import com.example.backend.Enum.NodeStatus;
 import com.example.backend.entities.Node;
 import com.example.backend.repositories.NodeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -16,8 +18,20 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@EnableScheduling
 public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
     private final NodeRepository nodeRepository;
+
+    @Override
+    public Set<Node> getAllNodes() {
+        return new HashSet<>(nodeRepository.findAll());
+    }
+
+    @Scheduled(fixedRateString = "120000")
+    public void periodicNetworkScan() {
+        this.scanNetwork("192.168.60.0/24");
+        System.out.println("Scan périodique du réseau effectué.");
+    }
 
     @Override
     public Set<Node> scanNetwork(String subnet) {

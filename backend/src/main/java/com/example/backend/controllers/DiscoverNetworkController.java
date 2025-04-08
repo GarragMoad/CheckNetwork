@@ -22,7 +22,8 @@ public class DiscoverNetworkController {
     }
     @GetMapping("/scan")
     public Set<Node> scanNetwork() {
-        return this.networkDiscoveryService.scanNetwork(DiscoverNetworkController.subnet);
+        //return this.networkDiscoveryService.scanNetwork(DiscoverNetworkController.subnet);
+        return this.networkDiscoveryService.getAllNodes();
     }
 
 }
