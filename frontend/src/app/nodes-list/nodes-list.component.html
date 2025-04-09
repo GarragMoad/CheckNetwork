@@ -1,0 +1,28 @@
+<div class="nodes-container">
+    <h2>Réseau scanné</h2>
+  
+    <div *ngIf="nodes.length > 0; else noData">
+      <table class="nodes-table">
+        <thead>
+          <tr>
+            <th>Adresse IP</th>
+            <th>Hôte</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let node of nodes">
+            <td>{{ node.ip }}</td>
+            <td>{{ node.hostname }}</td>
+            <td>
+              {{ node.status }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <ng-template #noData>
+      <p>Aucun nœud détecté</p>
+    </ng-template>
+  </div>

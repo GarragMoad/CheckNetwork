@@ -4,6 +4,7 @@ import com.example.backend.Enum.NodeStatus;
 import com.example.backend.entities.Node;
 import com.example.backend.repositories.NodeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @EnableScheduling
 public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
     private final NodeRepository nodeRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     public Set<Node> getAllNodes() {
@@ -29,8 +31,10 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
 
     @Scheduled(fixedRateString = "120000")
     public void periodicNetworkScan() {
-        this.scanNetwork("192.168.60.0/24");
+        Set<Node> updatedNodes =this.scanNetwork("192.168.60.0/24");
         System.out.println("Scan périodique du réseau effectué.");
+        // Envoyer les nodes mis à jour via WebSocket
+        messagingTemplate.convertAndSend("/topic/network-status", updatedNodes);
     }
 
     @Override
