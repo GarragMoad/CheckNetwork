@@ -1,0 +1,22 @@
+---
+- name: Configurer SNMP sur les VMs
+  hosts: snmp_devices
+  become: yes
+  tasks:
+    - name: Installer le service SNMP
+      apt:
+        name: snmpd
+        state: present
+        update_cache: yes
+
+    - name: Copier la configuration SNMP
+      copy:
+        src: ../files/snmpd.conf
+        dest: /etc/snmp/snmpd.conf
+        mode: '0644'
+
+    - name: Redémarrer et activer snmpd
+      service:
+        name: snmpd
+        state: restarted
+        enabled: yes

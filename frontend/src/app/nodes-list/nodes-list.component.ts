@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from '../services/web-socket.service';
 
+
 @Component({
   selector: 'app-nodes-list',
   templateUrl: './nodes-list.component.html',
