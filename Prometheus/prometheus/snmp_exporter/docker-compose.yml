@@ -1,0 +1,20 @@
+version: '3.8' # Ajout de la version pour plus de clarté
+
+services:
+  snmp-exporter:
+    container_name: snmp-exporter
+    image: quay.io/prometheus/snmp-exporter:v0.26.0
+    ports:
+      - "9116:9116"       # Port pour exposer l'exporter
+      - "161:161/udp"     # Port SNMP en UDP
+    volumes:
+      - ./config:/etc/snmp-exporter # Montage du volume pour la configuration
+    command: --config.file=/etc/snmp-exporter/snmp.yml
+    restart: unless-stopped
+    networks:
+      prometheus_prometheus-net:
+        ipv4_address: 172.23.0.3
+
+networks:
+  prometheus_prometheus-net:
+    external: true

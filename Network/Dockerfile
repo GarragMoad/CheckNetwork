@@ -3,6 +3,7 @@ FROM python:3.10-slim
 
 # Mise à jour des paquets et installation des dépendances nécessaires
 RUN apt-get update && apt-get install -y \
+    bash\
     ssh \
     sshpass \
     && rm -rf /var/lib/apt/lists/*

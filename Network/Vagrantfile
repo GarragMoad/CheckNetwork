@@ -9,9 +9,9 @@ Vagrant.configure("2") do |config|
 
   # Définir les machines avec leurs IPs
   machines = {
-    "laptop" => "192.168.60.2",
-    "switch" => "192.168.60.3",
-    "router" => "192.168.60.4"
+    "LaptopV1" => "192.168.60.2",
+    "SwitchV1" => "192.168.60.3",
+    "RouterV1" => "192.168.60.4"
   }
 
   machines.each do |name, ip|

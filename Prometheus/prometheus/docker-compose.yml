@@ -1,0 +1,20 @@
+version: '3.8' # Ajout de la version pour plus de clarté
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: prometheus
+    ports:
+      - "9090:9090" # Port pour exposer Prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml # Configuration de Prometheus
+      - ./prometheus-data:/prometheus # Données persistantes
+    command: "--config.file=/etc/prometheus/prometheus.yml"
+    restart: unless-stopped
+    networks:
+      prometheus_prometheus-net:
+        ipv4_address: 172.23.0.2
+
+networks:
+  prometheus_prometheus-net:
+    external: true

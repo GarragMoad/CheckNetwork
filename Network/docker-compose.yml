@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/ansible
       - ~/.ssh:/root/.ssh:ro
-      - .vagrant:/root/.vagrant:ro
+      - .vagrant:/root/.vagrant:rw
     working_dir: /ansible
     stdin_open: true
     tty: true
