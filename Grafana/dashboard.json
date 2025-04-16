@@ -1,198 +1,65 @@
-    {
-        "annotations": {
-        "list": [
-            {
-            "builtIn": 1,
-            "datasource": "Prometheus-1",
-            "enable": true,
-            "hide": true,
-            "iconColor": "rgba(0, 211, 255, 1)",
-            "name": "Annotations & Alerts",
-            "type": "dashboard"
-            }
-        ]
+{
+    "id": null,
+    "title": "Interface Metrics - 192.168.60.2",
+    "timezone": "browser",
+    "schemaVersion": 38,
+    "version": 1,
+    "refresh": "30s",
+    "panels": [
+      {
+        "type": "timeseries",
+        "title": "Inbound Traffic - enp0s3",
+        "datasource": {
+          "type": "prometheus"
         },
-        "editable": true,
-        "gnetId": 10584,
-        "graphTooltip": 0,
-        "links": [],
-        "panels": [
-        {
-            "aliasColors": {},
-            "bars": false,
-            "dashLength": 10,
-            "dashes": false,
-            "datasource": "Prometheus-1",
-            "fieldConfig": {
-            "defaults": {
-                "custom": {}
-            },
-            "overrides": []
-            },
-            "fill": 1,
-            "fillGradient": 0,
-            "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 0
-            },
-            "hiddenSeries": false,
-            "id": 2,
-            "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-            },
-            "lines": true,
-            "linewidth": 1,
-            "nullPointMode": "null",
-            "options": {
-            "alertThreshold": true
-            },
-            "percentage": false,
-            "pointradius": 2,
-            "points": false,
-            "renderer": "flot",
-            "seriesOverrides": [],
-            "spaceLength": 10,
-            "stack": false,
-            "steppedLine": false,
-            "targets": [
-            {
-                "expr": "rate(snmp_ifInOctets{instance=\"$device\"}[5m])*8",
-                "format": "time_series",
-                "intervalFactor": 1,
-                "legendFormat": "{{ifDescr}} In",
-                "refId": "A"
-            },
-            {
-                "expr": "rate(snmp_ifOutOctets{instance=\"$device\"}[5m])*8",
-                "format": "time_series",
-                "intervalFactor": 1,
-                "legendFormat": "{{ifDescr}} Out",
-                "refId": "B"
-            }
-            ],
-            "title": "Traffic Interface",
-            "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-            },
-            "type": "graph",
-            "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-            },
-            "yaxes": [
-            {
-                "format": "bps",
-                "label": null,
-                "logBase": 1,
-                "max": null,
-                "min": null,
-                "show": true
-            },
-            {
-                "format": "short",
-                "label": null,
-                "logBase": 1,
-                "max": null,
-                "min": null,
-                "show": true
-            }
-            ],
-            "yaxis": {
-            "align": false,
-            "alignLevel": null
-            }
+        "targets": [
+          {
+            "expr": "rate(ifHCInOctets{instance=\"192.168.60.2\", ifName=\"enp0s3\"}[1m])",
+            "legendFormat": "{{ifName}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "Bps",
+            "decimals": 2
+          },
+          "overrides": []
         },
-        {
-            "datasource": "Prometheus-1",
-            "fieldConfig": {
-            "defaults": {
-                "custom": {}
-            },
-            "overrides": []
-            },
-            "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 0
-            },
-            "id": 3,
-            "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-                "calcs": [
-                "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-            }
-            },
-            "pluginVersion": "7.3.7",
-            "targets": [
-            {
-                "expr": "snmp_ifOperStatus{instance=\"$device\"}",
-                "format": "time_series",
-                "interval": "",
-                "legendFormat": "{{ifDescr}}",
-                "refId": "A"
-            }
-            ],
-            "title": "Interface Status",
-            "type": "stat"
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 0
         }
-        ],
-        "schemaVersion": 27,
-        "style": "dark",
-        "tags": [
-        "snmp",
-        "network"
-        ],
-        "templating": {
-        "list": [
-            {
-            "current": {
-                "text": "192.168.60.2",
-                "value": "192.168.60.2"
-            },
-            "datasource": "Prometheus-1",
-            "definition": "label_values(snmp_sysUpTime, instance)",
-            "hide": 0,
-            "includeAll": false,
-            "label": "Device",
-            "multi": false,
-            "name": "device",
-            "options": [],
-            "query": "label_values(snmp_sysUpTime, instance)",
-            "refresh": 1,
-            "regex": "",
-            "skipUrlSync": false,
-            "sort": 0,
-            "type": "query"
-            }
-        ]
+      },
+      {
+        "type": "timeseries",
+        "title": "Inbound Traffic - enp0s8",
+        "datasource": {
+          "type": "prometheus"
         },
-        "time": {
-        "from": "now-6h",
-        "to": "now"
+        "targets": [
+          {
+            "expr": "rate(ifHCInOctets{instance=\"192.168.60.2\", ifName=\"enp0s8\"}[1m])",
+            "legendFormat": "{{ifName}}",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "Bps",
+            "decimals": 2
+          },
+          "overrides": []
         },
-        "timepicker": {},
-        "timezone": "",
-        "title": "SNMP Monitoring",
-        "version": 1
-    }
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      }
+    ]
+  }
+  

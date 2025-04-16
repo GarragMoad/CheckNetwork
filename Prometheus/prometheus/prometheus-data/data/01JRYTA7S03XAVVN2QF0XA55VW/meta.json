@@ -1,0 +1,17 @@
+{
+	"ulid": "01JRYTA7S03XAVVN2QF0XA55VW",
+	"minTime": 1744712411966,
+	"maxTime": 1744718400000,
+	"stats": {
+		"numSamples": 191511,
+		"numSeries": 1222,
+		"numChunks": 2336
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01JRYTA7S03XAVVN2QF0XA55VW"
+		]
+	},
+	"version": 1
+}
