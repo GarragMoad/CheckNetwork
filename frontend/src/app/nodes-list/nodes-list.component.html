@@ -18,7 +18,16 @@
             <td>
               {{ node.status }}
             </td>
-            <td> <button ><a href="http://localhost:3000/d/bej2jqdtd1b7kb/interface-metrics-192-168-60-2" target="_blank">Grafana</a></button></td>
+            <td>
+              <ng-container *ngIf="node.grafanaUrl; else notAvailable">
+                <a [href]="node.grafanaUrl" target="_blank">
+                  <button>Grafana</button>
+                </a>
+              </ng-container>
+              <ng-template #notAvailable>
+                <span style="color: gray;">Non dispo</span>
+              </ng-template>
+            </td>
           </tr>
         </tbody>
       </table>
