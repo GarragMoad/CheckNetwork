@@ -8,6 +8,7 @@
             <th>Adresse IP</th>
             <th>Hôte</th>
             <th>Statut</th>
+            <th>Metrics</th>
           </tr>
         </thead>
         <tbody>
@@ -17,6 +18,7 @@
             <td>
               {{ node.status }}
             </td>
+            <td> <button ><a href="http://localhost:3000/d/bej2jqdtd1b7kb/interface-metrics-192-168-60-2" target="_blank">Grafana</a></button></td>
           </tr>
         </tbody>
       </table>
