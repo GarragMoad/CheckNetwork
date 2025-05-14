@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from '../services/web-socket.service';
 import { GetDashboardService } from '../services/get-dashboard.service';
+import { GuacamoleService } from '../services/guacamole.service';
+import { MatDialog } from '@angular/material/dialog';
+import { GuacamoleDialogComponent } from '../components/guacamole/guacamole-dialog.component';
 
 @Component({
   selector: 'app-nodes-list',
@@ -11,12 +14,15 @@ export class NodesListComponent implements OnInit {
 
   constructor(
     private webSocketService: WebSocketService,
-    private getDashboardService: GetDashboardService
+    private getDashboardService: GetDashboardService,
+    private guacamoleService: GuacamoleService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.webSocketService.nodes$.subscribe(nodes => {
       this.nodes = nodes;
+      console.log('Received nodes:', this.nodes);
       this.enrichWithGrafanaUrls();
     });
   }
@@ -38,4 +44,18 @@ export class NodesListComponent implements OnInit {
   refresh(): void {
     this.webSocketService.requestNetworkStatus();
   }
+
+ openConsole(node: any): void {
+  this.guacamoleService.getConnectionUrlByIp(node.ip).subscribe({
+    next: res => {
+      // Ouvre l'URL dans un nouvel onglet
+      window.open(res.url, '_blank');
+    },
+    error: err => {
+      console.error('Erreur lors de l\'ouverture de la console', err);
+    }
+  });
+}
+
+
 }

@@ -15,17 +15,4 @@ export class GuacamoleComponent {
 
   constructor(private guacService: GuacamoleService, private sanitizer: DomSanitizer) {}
 
-  login() {
-    this.guacService.login(this.username, this.password).subscribe(data => {
-      this.connections = data.connections;
-      const token = data.token;
-
-      if (this.connections.length > 0) {
-        const connectionId = this.connections[0].identifier;
-        this.guacService.getConnectionUrl(connectionId, token).subscribe(res => {
-          this.connectionUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.url);
-        });
-      }
-    });
-  }
 }

@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,20 +17,24 @@ public class GuacamoleController {
 
     @Autowired
     private GuacamoleService guacamoleService;
-
-    /*@PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<GuacamoleLoginResponse> login(@RequestParam("username") String username,
-                                                        @RequestParam("password") String password) {
-        String token = guacamoleService.authenticate(username, password);
-        List<Map<String, Object>> connections = guacamoleService.listConnections(token);
-        return ResponseEntity.ok(new GuacamoleLoginResponse(token, connections));
-    }*/
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String login(@RequestParam("username") String username,
-                                                        @RequestParam("password") String password) {
-        String token = guacamoleService.authenticate(username, password);
+    public ResponseEntity<Map<String, Object>> login(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password) {
+
+        // Authentification
+        Map<String, Object> authResponse = guacamoleService.authenticate(username, password);
+        String token = (String) authResponse.get("authToken");
+
+        // Récupération des connexions
         List<Map<String, Object>> connections = guacamoleService.listConnections(token);
-        return connections.toString();
+
+        // Construction de la réponse
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("connections", connections);
+
+        return ResponseEntity.ok(response);
     }
 
 
@@ -38,4 +43,15 @@ public class GuacamoleController {
         String url = guacamoleService.generateConnectionUrl(connectionId, token);
         return ResponseEntity.ok(Map.of("url", url));
     }
+
+    @GetMapping("/connect/by-ip")
+    public ResponseEntity<Map<String, String>> getConnectionByIp(@RequestParam String ip) {
+        String url = guacamoleService.getConnectionUrlByIp(ip);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("url", url);
+
+        return ResponseEntity.ok(response);
+    }
+
 }

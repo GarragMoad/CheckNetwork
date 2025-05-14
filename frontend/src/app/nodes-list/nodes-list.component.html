@@ -1,39 +1,42 @@
 <div class="nodes-container">
-    <h2>Réseau scanné</h2>
-  
-    <div *ngIf="nodes.length > 0; else noData">
-      <table class="nodes-table">
-        <thead>
-          <tr>
-            <th>Adresse IP</th>
-            <th>Hôte</th>
-            <th>Statut</th>
-            <th>Metrics</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let node of nodes">
-            <td>{{ node.ip }}</td>
-            <td>{{ node.hostname }}</td>
-            <td>
-              {{ node.status }}
-            </td>
-            <td>
-              <ng-container *ngIf="node.grafanaUrl; else notAvailable">
-                <a [href]="node.grafanaUrl" target="_blank">
-                  <button>Grafana</button>
-                </a>
-              </ng-container>
-              <ng-template #notAvailable>
-                <span style="color: gray;">Non dispo</span>
-              </ng-template>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <ng-template #noData>
-      <p>Aucun nœud détecté</p>
-    </ng-template>
+  <h2>Réseau scanné</h2>
+
+  <div *ngIf="nodes.length > 0; else noData">
+    <table class="nodes-table">
+      <thead>
+        <tr>
+          <th>Adresse IP</th>
+          <th>Hôte</th>
+          <th>Statut</th>
+          <th>Metrics</th>
+          <th>Console</th> <!-- Nouvelle colonne -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let node of nodes">
+          <td>{{ node.ip }}</td>
+          <td>{{ node.hostname }}</td>
+          <td>{{ node.status }}</td>
+          <td>
+            <!-- Existant -->
+            <ng-container *ngIf="node.grafanaUrl; else notAvailable">
+              <a [href]="node.grafanaUrl" target="_blank">
+                <button>Grafana</button>
+              </a>
+            </ng-container>
+            <ng-template #notAvailable>
+              <span style="color: gray;">Non dispo</span>
+            </ng-template>
+          </td>
+          <td>
+             <button (click)="openConsole(node)"> SSH</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <ng-template #noData>
+    <p>Aucun nœud détecté</p>
+  </ng-template>
+</div>
