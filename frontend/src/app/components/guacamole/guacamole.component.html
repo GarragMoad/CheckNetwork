@@ -1,0 +1,10 @@
+<div>
+  <input [(ngModel)]="username" placeholder="Username">
+  <input [(ngModel)]="password" type="password" placeholder="Password">
+  <button (click)="login()">Login</button>
+</div>
+
+<div *ngIf="connectionUrl">
+  <iframe [src]="connectionUrl" width="100%" height="600px"></iframe>
+</div>
+

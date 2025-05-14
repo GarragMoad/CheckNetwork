@@ -1,0 +1,74 @@
+{
+  "id": null,
+  "title": "Interface Traffic (In+Out) - 192.168.60.4",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Traffic - enp0s3",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "rate(ifHCInOctets{instance=\"192.168.60.4\", ifName=\"enp0s3\"}[1m]  * 8 / 1000)",
+          "legendFormat": "Inbound - enp0s3",
+          "refId": "IN"
+        },
+        {
+          "expr": "rate(ifHCOutOctets{instance=\"192.168.60.4\", ifName=\"enp0s3\"}[1m]  * 8 / 1000)",
+          "legendFormat": "Outbound - enp0s3",
+          "refId": "OUT"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Kbps",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Traffic - enp0s8",
+      "datasource": {
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "rate(ifHCInOctets{instance=\"192.168.60.4\", ifName=\"enp0s8\"}[1m]  * 8 / 1000)",
+          "legendFormat": "Inbound - enp0s8",
+          "refId": "IN"
+        },
+        {
+          "expr": "rate(ifHCOutOctets{instance=\"192.168.60.4\", ifName=\"enp0s8\"}[1m]  * 8 / 1000)",
+          "legendFormat": "Outbound - enp0s8",
+          "refId": "OUT"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Kbps",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      }
+    }
+  ]
+}

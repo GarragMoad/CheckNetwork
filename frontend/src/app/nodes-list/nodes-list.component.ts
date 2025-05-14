@@ -23,7 +23,8 @@ export class NodesListComponent implements OnInit {
 
   enrichWithGrafanaUrls(): void {
     this.nodes.forEach(node => {
-      const title = `Interface Metrics - ${node.ip}`;
+      //const title = `Interface Metrics - ${node.ip}`;
+      const title = `toto`;
       this.getDashboardService.getDashboardUrl(title).subscribe({
         next: (url: any) => node.grafanaUrl = url,
         error: (err: any) => {
