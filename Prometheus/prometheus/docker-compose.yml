@@ -1,19 +1,45 @@
-version: '3.8' # Ajout de la version pour plus de clarté
+version: '3.8'
 
 services:
   prometheus:
     image: prom/prometheus:v2.53.0
     container_name: prometheus
     ports:
-      - "9090:9090" # Port pour exposer Prometheus
+      - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml # Configuration de Prometheus
-      - ./prometheus-data:/prometheus # Données persistantes
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus-data:/prometheus
     command: "--config.file=/etc/prometheus/prometheus.yml"
     restart: unless-stopped
     networks:
       prometheus_prometheus-net:
         ipv4_address: 172.23.0.2
+
+  snmp-exporter:
+    container_name: snmp-exporter
+    image: quay.io/prometheus/snmp-exporter:v0.26.0
+    ports:
+      - "9116:9116"
+      - "161:161/udp"
+    volumes:
+      - ./config:/etc/snmp-exporter
+    command: --config.file=/etc/snmp-exporter/snmp.yml
+    restart: unless-stopped
+    networks:
+      prometheus_prometheus-net:
+        ipv4_address: 172.23.0.3
+
+  ping-exporter:
+    container_name: ping-exporter
+    image: czerwonk/ping_exporter
+    ports:
+      - "9427:9427"
+    volumes:
+      - ./ping_config:/config:ro
+    restart: unless-stopped
+    networks:
+      prometheus_prometheus-net:
+        ipv4_address: 172.23.0.4
 
 networks:
   prometheus_prometheus-net:

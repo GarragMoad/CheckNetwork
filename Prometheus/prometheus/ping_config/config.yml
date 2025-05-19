@@ -1,0 +1,12 @@
+ping:
+  interval: 5s
+  timeout: 3s
+  payload_size: 56
+  history_size: 20
+  workers: 5
+  privileged: false
+
+targets:
+  - google.com
+  - 192.168.60.2
+  - 8.8.8.8
