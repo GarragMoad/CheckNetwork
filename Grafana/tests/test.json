@@ -215,7 +215,76 @@
       ],
       "title": "Mean RTT - 192.168.60.2",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Performance Score based on packet loss and latency (192.168.60.2)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "id": 3,
+      "options": {
+        "reduceOptions": {
+          "calcs": ["last"],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr":"(0.7 * (1 - avg_over_time(ping_loss_ratio{target=\"192.168.60.2\"}[$__range])) + 0.3 * clamp(1 - avg_over_time(ping_rtt_mean_seconds{target=\"192.168.60.2\"}[$__range]) / 0.2, 0, 1)) * 100",
+          "instant": false,    
+          "range": true,       
+          "legendFormat": "Performance Score",
+          "refId": "A"
+        }
+      ],
+      "title": "Performance Score - 192.168.60.2",
+      "type": "gauge"
     }
+
   ],
   "refresh": "30s",
   "schemaVersion": 39,
@@ -244,3 +313,7 @@
   "version": 1,
   "weekStart": ""
 }
+
+
+
+
