@@ -3,14 +3,15 @@ package com.example.backend.services;
 import com.example.backend.Enum.NodeStatus;
 import com.example.backend.entities.Node;
 import com.example.backend.repositories.NodeRepository;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
     @Scheduled(fixedRateString = "120000")
     public void periodicNetworkScan() {
         Set<Node> updatedNodes =this.scanNetwork("192.168.60.0/24");
-        System.out.println("Scan périodique du réseau effectué.");
+
         // Envoyer les nodes mis à jour via WebSocket
         messagingTemplate.convertAndSend("/topic/network-status", updatedNodes);
     }
@@ -51,27 +52,44 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
         // Sauvegarder les modifications
         nodeRepository.saveAll(nodesToUpdate);
 
+        Set<Node> allNodes = new HashSet<>(nodeRepository.findAll());
+        System.out.println("Nodes détecter" + allNodes);
+        exportNodesAsJson(allNodes, "C:/Users/garra/Documents/solarwinds/Network/Targets/targets.json");
+
         // Retourner l'état actuel du réseau
         return new HashSet<>(nodeRepository.findAll());
     }
 
     private Set<Node> scanNetworkWithNmap(String subnet) {
         Set<Node> scannedNodes = new HashSet<>();
+        Set<String> excludedIps = Set.of("192.168.60.1"); // ← IPs à ignorer (machine hôte ici)
+
         try {
             Process process = Runtime.getRuntime().exec("nmap -sn " + subnet);
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             String currentIp = null;
+            String currentHost = null;
 
             while ((line = reader.readLine()) != null) {
-                if (line.contains("Nmap scan report for")) {
+                if (line.startsWith("Nmap scan report for")) {
                     String[] parts = line.split(" ");
-                    currentIp = parts[parts.length - 1].replaceAll("[()]", "");
-                    System.out.println("IP détectée: " + currentIp);
-                } else if (line.contains("MAC Address") && currentIp != null) {
-                    String mac = line.split(" ")[2];
-                    scannedNodes.add(new Node(currentIp, mac));
-                    currentIp = null;
+                    if (parts.length >= 5 && line.contains("(") && line.contains(")")) {
+                        currentHost = parts[4];
+                        currentIp = parts[5].replaceAll("[()]", "");
+                    } else {
+                        currentHost = null;
+                        currentIp = parts[4];
+                    }
+
+                    // Filtrer l’IP hôte
+                    if (excludedIps.contains(currentIp)) {
+                        System.out.println("IP ignorée : " + currentIp);
+                        continue;
+                    }
+
+                    System.out.println("Hôte détecté : " + (currentHost != null ? currentHost : "<inconnu>") + " - IP : " + currentIp);
+                    scannedNodes.add(new Node(currentIp, currentHost));
                 }
             }
         } catch (Exception e) {
@@ -79,6 +97,7 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
         }
         return scannedNodes;
     }
+
 
     private Set<Node> compareAndUpdateNodes(Set<Node> existingNodes, Set<Node> scannedNodes) {
         Set<Node> nodesToUpdate = new HashSet<>();
@@ -115,4 +134,15 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
 
         return nodesToUpdate;
     }
+    public void exportNodesAsJson(Set<Node> nodes, String outputPath) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        try (FileWriter writer = new FileWriter(outputPath)) {
+            gson.toJson(nodes, writer);
+            System.out.println("✔️ Fichier JSON écrit : " + outputPath);
+        } catch (IOException e) {
+            System.err.println("❌ Erreur lors de l'écriture du fichier JSON : " + e.getMessage());
+        }
+    }
+
 }
