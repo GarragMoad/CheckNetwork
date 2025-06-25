@@ -12,7 +12,8 @@ Vagrant.configure("2") do |config|
     "LaptopV1" => "192.168.60.2",
     "SwitchV1" => "192.168.60.3",
     "RouterV1" => "192.168.60.4",
-    "ServerV1" => "192.168.60.5"
+    "ServerV1" => "192.168.60.5",
+    "DesktopV1" => "192.168.60.6"
   }
 
   machines.each do |name, ip|
@@ -36,6 +37,7 @@ Vagrant.configure("2") do |config|
         echo "192.168.60.3 SwitchV1" >> /etc/hosts
         echo "192.168.60.4 RouterV1" >> /etc/hosts
         echo "192.168.60.5 ServerV1" >> /etc/hosts
+        echo "192.168.60.6 DesktopV1" >> /etc/hosts
       SHELL
     end
   end

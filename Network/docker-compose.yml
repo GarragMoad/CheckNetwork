@@ -6,8 +6,38 @@ services:
     container_name: ansible-controller
     volumes:
       - .:/ansible
-      - ~/.ssh:/root/.ssh:ro
+      - ./ssh_keys:/tmp/ssh_keys:ro
       - .vagrant:/root/.vagrant:rw
     working_dir: /ansible
     stdin_open: true
     tty: true
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        # Nettoyer complètement le répertoire .ssh
+        rm -rf /root/.ssh 2>/dev/null || true
+        
+        # Recréer la structure
+        mkdir -p /root/.ssh
+        chmod 700 /root/.ssh
+        
+        # Copier les clés avec vérification
+        if [ -n "$(ls -A /tmp/ssh_keys/)" ]; then
+          cp -r /tmp/ssh_keys/* /root/.ssh/
+          echo "SSH keys copied successfully"
+        else
+          echo "No SSH keys to copy"
+        fi
+        
+        # Corriger les permissions
+        find /root/.ssh -type f ! -name "*.pub" ! -name "known_hosts" -exec chmod 600 {} \;
+        find /root/.ssh -type f \( -name "*.pub" -o -name "known_hosts" \) -exec chmod 644 {} \;
+        
+        # Vérification finale
+        echo "Contenu final de /root/.ssh :"
+        ls -l /root/.ssh
+        # Lancer le playbook après l'initialisation
+        echo "Démarrage de l'exécution du playbook..." && \
+        ansible-playbook -i inventory.ini playbooks/config-snmp.yml && \
+        exec /bin/bash

@@ -21,7 +21,6 @@ public class GrafanaService {
 
     public Optional<String> getDashboardUrl(String title) {
         String url = grafanaUrl + "/api/search?query=" + title;
-        System.out.println("URL: " + url);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("admin", "1966");

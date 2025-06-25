@@ -11,6 +11,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { GuacamoleComponent } from './components/guacamole/guacamole.component';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     AppComponent,
     NodesListComponent,
     DashboardComponent,
-    GuacamoleComponent
+    GuacamoleComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

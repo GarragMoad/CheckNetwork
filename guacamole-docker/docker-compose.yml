@@ -39,6 +39,5 @@ services:
     links:
       - guacd
       - mysql
-
 volumes:
   mysql_data:

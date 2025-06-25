@@ -1,26 +1,32 @@
 [
   {
+    "id": 9,
+    "ip": "192.168.60.2",
+    "hostname": "LaptopV1",
+    "status": "DOWN"
+  },
+  {
+    "id": 14,
+    "ip": "192.168.60.6",
+    "hostname": "DesktopV1",
+    "status": "DOWN"
+  },
+  {
     "id": 8,
     "ip": "192.168.60.5",
     "hostname": "ServerV1",
-    "status": "UP"
+    "status": "DOWN"
   },
   {
     "id": 11,
     "ip": "192.168.60.3",
     "hostname": "SwitchV1",
-    "status": "UP"
+    "status": "DOWN"
   },
   {
     "id": 10,
     "ip": "192.168.60.4",
     "hostname": "RouterV1",
-    "status": "UP"
-  },
-  {
-    "id": 9,
-    "ip": "192.168.60.2",
-    "hostname": "LaptopV1",
-    "status": "UP"
+    "status": "DOWN"
   }
 ]

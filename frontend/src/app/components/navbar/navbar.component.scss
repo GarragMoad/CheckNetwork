@@ -1,0 +1,194 @@
+.navbar {
+  background: linear-gradient(135deg, #2a2d47 0%, #1e2139 100%);
+  border-bottom: 1px solid #3a3f5c;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden; // Empêche le débordement
+  }
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+    flex-shrink: 0; // Empêche la compression
+    
+    .brand-logo {
+      height: 50px; // Taille réduite pour éviter le chevauchement
+      width: auto;
+      margin-right: 40px; // Espacement réduit
+      filter: brightness(1.1);
+      transition: transform 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+    
+    .brand-text {
+      color: #ffffff;
+      font-size: 18px; // Taille réduite
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      white-space: nowrap; // Empêche le retour à la ligne
+    }
+  }
+
+  .navbar-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    gap: 6px; // Espacement réduit entre les éléments
+    overflow-x: auto; // Permet le scroll horizontal si nécessaire
+    scrollbar-width: none; // Cache la scrollbar Firefox
+    
+    &::-webkit-scrollbar {
+      display: none; // Cache la scrollbar Chrome/Safari
+    }
+  }
+
+  .navbar-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px; // Padding réduit
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #a0a6c1;
+    position: relative;
+    min-width: 100px; // Largeur minimum réduite
+    flex-shrink: 0; // Empêche la compression
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 6px;
+        background: #4f46e5;
+        border-radius: 50%;
+      }
+    }
+
+    .navbar-icon {
+      margin-right: 6px; // Espacement réduit
+      font-size: 18px; // Taille d'icône réduite
+    }
+
+    .navbar-label {
+      font-size: 13px; // Taille de police réduite
+      font-weight: 500;
+      white-space: nowrap;
+    }
+  }
+
+  .navbar-user {
+    margin-left: auto;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      color: #a0a6c1;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: #ffffff;
+      }
+
+      .user-icon {
+        margin-right: 8px;
+        font-size: 24px;
+      }
+
+      .user-name {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Media queries pour responsive
+@media (max-width: 768px) {
+  .navbar {
+    .navbar-container {
+      padding: 0 16px;
+    }
+
+    .navbar-brand {
+      margin-right: 12px; // Espacement réduit sur mobile
+      
+      .brand-logo {
+        height: 20px; // Plus petit sur mobile
+        margin-right: 6px;
+      }
+      
+      .brand-text {
+        font-size: 16px; // Plus petit sur mobile
+      }
+    }
+
+    .navbar-item {
+      min-width: auto;
+      padding: 8px 12px;
+
+      .navbar-label {
+        display: none;
+      }
+    }
+
+    .user-info .user-name {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    .navbar-brand {
+      .brand-text {
+        display: none; // Cache le texte sur très petits écrans
+      }
+    }
+  }
+  
+  .navbar-menu {
+    gap: 8px;
+  }
+
+  .navbar-item {
+    padding: 6px 8px;
+    min-width: 80px;
+  }
+}

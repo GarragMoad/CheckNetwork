@@ -20,8 +20,8 @@ public class DashboardController {
 
     @GetMapping("/search")
     public Optional<String> searchDashboard(@RequestParam String title) {
-        System.out.println("Searching for dashboard with title: " + title);
         String dashboardUrl = String.valueOf(grafanaService.getDashboardUrl(title));
+        System.out.println("Dashboard URL: " + dashboardUrl);
         return grafanaService.getDashboardUrl(title);
     }
 }

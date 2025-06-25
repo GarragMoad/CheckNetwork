@@ -13,10 +13,11 @@ scrape_configs:
       module: [if_mib]
     static_configs:
       - targets:
-          - 192.168.60.5
-          - 192.168.60.3
-          - 192.168.60.4
           - 192.168.60.2
+          - 192.168.60.4
+          - 192.168.60.3
+          - 192.168.60.5
+          - 192.168.60.6
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target

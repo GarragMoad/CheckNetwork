@@ -53,7 +53,6 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
         nodeRepository.saveAll(nodesToUpdate);
 
         Set<Node> allNodes = new HashSet<>(nodeRepository.findAll());
-        System.out.println("Nodes détecter" + allNodes);
         exportNodesAsJson(allNodes, "C:/Users/garra/Documents/solarwinds/Network/Targets/targets.json");
 
         // Retourner l'état actuel du réseau
@@ -84,11 +83,9 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
 
                     // Filtrer l’IP hôte
                     if (excludedIps.contains(currentIp)) {
-                        System.out.println("IP ignorée : " + currentIp);
                         continue;
                     }
 
-                    System.out.println("Hôte détecté : " + (currentHost != null ? currentHost : "<inconnu>") + " - IP : " + currentIp);
                     scannedNodes.add(new Node(currentIp, currentHost));
                 }
             }
@@ -121,6 +118,9 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
                 // Nouveau node - l'ajouter
                 scannedNode.setStatus(NodeStatus.UP);
                 nodesToUpdate.add(scannedNode);
+                //PythonRunner.runScript();
+                //System.out.println("Ligne après script: " + scannedNode.getIp());
+
             }
         }
 
@@ -139,7 +139,6 @@ public class NetworkDiscoverServiceNmap implements NetworkDiscoveryService {
 
         try (FileWriter writer = new FileWriter(outputPath)) {
             gson.toJson(nodes, writer);
-            System.out.println("✔️ Fichier JSON écrit : " + outputPath);
         } catch (IOException e) {
             System.err.println("❌ Erreur lors de l'écriture du fichier JSON : " + e.getMessage());
         }

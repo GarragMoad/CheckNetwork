@@ -12,6 +12,8 @@ export class GetDashboardService {
   constructor(private http: HttpClient) {}
 
   getDashboardUrl(title: string): Observable<string> {
-    return this.http.get<string>(this.apiUrl + '?title=' + title);
+    const url = `${this.apiUrl}?title=${encodeURIComponent(title)}`;
+    console.log('URL:', url);
+    return this.http.get<string>(url);
   }
 }

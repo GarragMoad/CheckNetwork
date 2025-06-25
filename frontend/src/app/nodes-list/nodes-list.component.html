@@ -1,15 +1,15 @@
 <div class="nodes-container">
-  <h2>Réseau scanné</h2>
 
   <div *ngIf="nodes.length > 0; else noData">
     <table class="nodes-table">
       <thead>
         <tr>
-          <th>Adresse IP</th>
-          <th>Hôte</th>
-          <th>Statut</th>
+          <th>IP address</th>
+          <th>Hote</th>
+          <th>Status</th>
+          <th>SNMP</th>
           <th>Metrics</th>
-          <th>Console</th> <!-- Nouvelle colonne -->
+          <th>Console</th> 
         </tr>
       </thead>
       <tbody>
@@ -18,6 +18,11 @@
           <td>{{ node.hostname }}</td>
           <td>{{ node.status }}</td>
           <td>
+             <span [style.color]="node.snmpRunning ? 'green' : 'red'">
+              {{ node.snmpRunning ? 'ACTIVE' : 'INACTIVE' }}
+            </span>
+          </td>
+          <td>
             <!-- Existant -->
             <ng-container *ngIf="node.grafanaUrl; else notAvailable">
               <a [href]="node.grafanaUrl" target="_blank">
@@ -25,13 +30,19 @@
               </a>
             </ng-container>
             <ng-template #notAvailable>
-              <span style="color: gray;">Non dispo</span>
+              <span style="color: red;">Unavailable</span>
             </ng-template>
           </td>
           <td>
-             <button (click)="openConsole(node)"> SSH</button>
+             <button
+              [disabled]="node.status === 'DOWN'"
+              [ngClass]="{ 'ssh-button': true, 'disabled-button': node.status === 'DOWN' }"
+              (click)="openConsole(node)"
+            >
+              SSH
+          </button>
           </td>
-        </tr>
+      </tr>
       </tbody>
     </table>
   </div>
