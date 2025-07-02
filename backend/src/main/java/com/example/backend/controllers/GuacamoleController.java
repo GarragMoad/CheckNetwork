@@ -46,12 +46,18 @@ public class GuacamoleController {
 
     @GetMapping("/connect/by-ip")
     public ResponseEntity<Map<String, String>> getConnectionByIp(@RequestParam String ip) {
+        System.out.println("GuacamoleController: getConnectionByIp called with IP: " + ip);
         String url = guacamoleService.getConnectionUrlByIp(ip);
 
         Map<String, String> response = new HashMap<>();
         response.put("url", url);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello from GuacamoleController!";
     }
 
 }

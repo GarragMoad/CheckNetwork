@@ -2,8 +2,10 @@ package com.example.backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,13 +45,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http
+                .csrf(csrf -> csrf.disable()) // désactive CSRF
+                .cors(Customizer.withDefaults()) // active la gestion CORS
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // prévol CORS
+                        .requestMatchers("/api/auth/**").permitAll() // auth publique
+                        .requestMatchers("/ws/**", "/topic/**", "/app/**").permitAll() // WebSocket et STOMP
+                        //.anyRequest().authenticated() // le reste nécessite auth
+
+                        .requestMatchers("/api/snmp/status/**").permitAll()
+                        .requestMatchers("/api/dashboards/**").permitAll()
+                        .requestMatchers("/api/guacamole/connect/by-ip/**").permitAll()
                 )
                 .authenticationProvider(ldapAuthProvider());
 
         return http.build();
     }
+
 }

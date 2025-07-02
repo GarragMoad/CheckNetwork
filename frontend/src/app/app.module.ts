@@ -7,20 +7,25 @@ import { NodesListComponent } from './nodes-list/nodes-list.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { HttpClientModule } from '@angular/common/http';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CommonModule } from '@angular/common';
 import { GuacamoleComponent } from './components/guacamole/guacamole.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+
 
 
 @NgModule({
   declarations: [
+    NodesListComponent,
     AppComponent,
     NodesListComponent,
-    DashboardComponent,
     GuacamoleComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoginComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -29,7 +34,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     MatListModule,
     HttpClientModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule,
+    NgApexchartsModule
   ],
   providers: [ ],
   bootstrap: [AppComponent]

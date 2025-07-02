@@ -35,7 +35,7 @@ services:
       MYSQL_USER: guacamole_user
       MYSQL_PASSWORD: guacpass
     ports:
-      - "8080:8080"  # Interface web ici
+      - "8888:8080"  # Interface web ici
     links:
       - guacd
       - mysql

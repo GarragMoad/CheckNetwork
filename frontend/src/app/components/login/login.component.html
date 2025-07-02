@@ -1,0 +1,140 @@
+<div class="login-container">
+  <div class="login-content">
+    <!-- Section de gauche - Formulaire -->
+    <div class="login-form-section">
+      <div class="form-container">
+        <!-- Logo Vivo Energy -->
+        <div class="logo-section">
+          <img src="assets/images/vivoEnergy.jpg" alt="Vivo Energy" class="logo">
+          <div class="app-title">
+            <h3>Monitoring Dashboard</h3>
+            <p>Système de surveillance et de contrôle</p>
+          </div>
+        </div>
+
+        <!-- Titre de bienvenue -->
+        <div class="welcome-section">
+          <h1>Bienvenue</h1>
+          <h2>Connectez-vous à votre espace</h2>
+          <p>Accédez à votre tableau de bord de monitoring</p>
+        </div>
+
+        <!-- Formulaire de connexion -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <div class="form-group">
+            <input 
+                type="text" 
+                formControlName="username"
+                placeholder="Nom d'utilisateur"
+                class="form-input"
+                [class.error]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+            >
+            <div class="error-message" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+                <span *ngIf="loginForm.get('username')?.errors?.['required']">Le nom d'utilisateur est requis</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="password-input-container">
+              <input 
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="password"
+                placeholder="Mot de passe"
+                class="form-input"
+                [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+
+              >
+              <button 
+                type="button" 
+                class="password-toggle"
+                (click)="togglePasswordVisibility()"
+              >
+                <i class="material-icons">{{hidePassword ? 'visibility' : 'visibility_off'}}</i>
+              </button>
+            </div>
+            <div class="error-message" *ngIf="(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) || loginError">
+              <span *ngIf="loginForm.get('password')?.errors?.['required']">Le mot de passe est requis</span>
+              <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères</span>
+              <span *ngIf="loginError">{{ loginError }}</span>
+            </div>
+          </div>
+
+          <!-- <div class="form-options">
+            <label class="remember-me">
+              <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+              <span class="checkmark"></span>
+              Se souvenir de moi
+            </label>
+            <a href="#" class="forgot-password" (click)="forgotPassword()">Mot de passe oublié?</a> 
+          </div>  <!-->
+
+          <button 
+            type="submit" 
+            class="sign-in-btn"
+            [disabled]="loginForm.invalid"
+          >
+            Se connecter
+          </button>
+        </form>
+
+        
+      </div>
+    </div>
+
+    <!-- Section de droite - Illustration -->
+    <div class="illustration-section">
+      <div class="illustration-container">
+        <div class="background-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+        </div>
+        
+        <div class="monitoring-illustration">
+          <!-- Dashboard mockup -->
+          <div class="dashboard-mockup">
+            <div class="dashboard-header">
+              <div class="dashboard-title">Monitoring Dashboard</div>
+              <div class="status-indicator active"></div>
+            </div>
+            <div class="dashboard-content">
+              <div class="chart-container">
+                <div class="chart-bar" style="height: 60%"></div>
+                <div class="chart-bar" style="height: 80%"></div>
+                <div class="chart-bar" style="height: 45%"></div>
+                <div class="chart-bar" style="height: 90%"></div>
+                <div class="chart-bar" style="height: 70%"></div>
+              </div>
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="metric-value">98.5%</div>
+                  <div class="metric-label">Uptime</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value">24/7</div>
+                  <div class="metric-label">Monitoring</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating elements -->
+          <div class="floating-element security-icon">
+            <i class="material-icons">security</i>
+          </div>
+          <div class="floating-element chart-icon">
+            <i class="material-icons">bar_chart</i>
+          </div>
+          <div class="floating-element notification-icon">
+            <i class="material-icons">notifications</i>
+          </div>
+        </div>
+
+        <div class="illustration-text">
+          <h3>Surveillance en temps réel</h3>
+          <p>Contrôlez et surveillez vos systèmes énergétiques avec notre plateforme de monitoring avancée</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

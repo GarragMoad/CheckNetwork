@@ -52,4 +52,49 @@ public class GrafanaService {
         return Optional.empty();
     }
 
+    public Optional<Map<String, Object>> getDashboardJsonByTitle(String title) {
+        // Étape 1 : Chercher le dashboard par titre
+        String searchUrl = grafanaUrl + "/api/search?query=" + title;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth("admin", "1966"); // ← Remplacer par config sécurisée en prod
+        headers.setAccept(MediaType.parseMediaTypes("application/json"));
+
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<List> searchResponse = restTemplate.exchange(
+                searchUrl,
+                HttpMethod.GET,
+                entity,
+                List.class
+        );
+
+        List<Map<String, Object>> dashboards = searchResponse.getBody();
+
+        if (dashboards == null || dashboards.isEmpty()) return Optional.empty();
+
+        for (Map<String, Object> dash : dashboards) {
+            String dashTitle = (String) dash.get("title");
+            if (title.equalsIgnoreCase(dashTitle)) {
+                String uid = (String) dash.get("uid");
+
+                // Étape 2 : Récupérer le dashboard complet par UID
+                String dashboardUrl = grafanaUrl + "/api/dashboards/uid/" + uid;
+
+                ResponseEntity<Map> dashboardResponse = restTemplate.exchange(
+                        dashboardUrl,
+                        HttpMethod.GET,
+                        entity,
+                        Map.class
+                );
+
+                Map<String, Object> dashboardJson = dashboardResponse.getBody();
+                return Optional.ofNullable(dashboardJson);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+
 }

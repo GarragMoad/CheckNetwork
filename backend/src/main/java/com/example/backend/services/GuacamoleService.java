@@ -16,7 +16,7 @@ import java.util.Map;
 public class GuacamoleService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String GUACAMOLE_URL = "http://localhost:8080/guacamole";
+    private final String GUACAMOLE_URL = "http://localhost:8888/guacamole";
     private final String USERNAME = "moad";
     private final String PASSWORD = "1966";
 
@@ -69,7 +69,6 @@ public class GuacamoleService {
                 return (String) connection.get("identifier");
             }
         }
-
         throw new RuntimeException("No connection found for IP: " + targetIp);
     }
 
@@ -80,6 +79,7 @@ public class GuacamoleService {
     }
 
     public String getConnectionUrlByIp(String targetIp) {
+        System.out.println("GuacamoleService: getConnectionUrlByIp");
         Map<String, Object> auth = authenticate(USERNAME, PASSWORD);
         String token = (String) auth.get("authToken");
 
